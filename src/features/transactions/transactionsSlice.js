@@ -12,9 +12,8 @@ import { createSlice } from "@reduxjs/toolkit";
 
 /** @type {{balance: number, history: Transaction[]}} */
 const initialState = {
-  amount: 0,
   balance: 0,
-  transactions: [],
+  history: [],
 };
 
 /* TODO
@@ -26,7 +25,6 @@ while "transfer" should decrease the balance by the amount in the payload.
 
 Refer to the "withdrawal" reducer, which is already implemented for you.
 */
-
 const transactionsSlice = createSlice({
   name: "transactions",
   initialState,
@@ -50,7 +48,7 @@ const transactionsSlice = createSlice({
     transfer: (state, { payload }) => {
       state.balance -= payload.amount;
       state.history.push({
-        type: "transfer",
+        type: `transfer/${payload.recipient}`,
         amount: payload.amount,
         balance: state.balance,
       });
@@ -63,4 +61,4 @@ export const { deposit, withdrawal, transfer } = transactionsSlice.actions;
 export const selectBalance = (state) => state.transactions.balance;
 export const selectHistory = (state) => state.transactions.history;
 
-export default transactionsSlice.reducer;
+export const transactionsReducer = transactionsSlice.reducer;
